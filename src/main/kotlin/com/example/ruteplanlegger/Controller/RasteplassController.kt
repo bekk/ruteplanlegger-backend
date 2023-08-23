@@ -1,15 +1,18 @@
 package com.example.ruteplanlegger.Controller
 
+import com.example.ruteplanlegger.service.RasteplasserService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rasteplasser")
-class Rasteplasser() {
+class Rasteplasser(val rasteplasserService: RasteplasserService) {
 
     @GetMapping
-    fun getRasteplasser(): String {
-        return "Legg til funksjon for å hente rasteplasser fra repository"
+    fun getRasteplasser(): String? {
+        return rasteplasserService.getAllRasteplasser()
     }
+
+
 }
