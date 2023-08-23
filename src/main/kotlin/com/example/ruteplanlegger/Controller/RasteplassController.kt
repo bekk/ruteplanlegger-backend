@@ -1,5 +1,4 @@
 package com.example.ruteplanlegger.Controller
-
 import com.example.ruteplanlegger.service.RasteplasserService
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
