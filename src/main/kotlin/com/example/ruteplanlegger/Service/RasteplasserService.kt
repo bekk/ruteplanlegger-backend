@@ -19,7 +19,7 @@ fun retrieveNavnAndId(data: JsonNode): List<Rasteplass> {
 @Service
 class RasteplasserService(val webClient: WebClient.Builder) {
     fun getAllRasteplasser(): List<Rasteplass>? {
-        val apiURL = "https://nvdbapiles-v3.atlas.vegvesen.no/vegobjekter/39?antall=10&inkluder=egenskaper"
+        val apiURL = "https://nvdbapiles-v3.atlas.vegvesen.no/vegobjekter/39?antall=50&inkluder=egenskaper&inkluder_egenskaper=basis"
         val response = webClient.baseUrl(apiURL).build().get().retrieve().bodyToMono(JsonNode::class.java).block()
         if (response is JsonNode) {
             return retrieveNavnAndId(response)
