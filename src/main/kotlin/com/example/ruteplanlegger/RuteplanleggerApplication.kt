@@ -8,7 +8,7 @@ class RuteplanleggerApplication
 
 
 fun main(args: Array<String>) {
-	runApplication<RuteplanleggerApplication>(*args)
+    runApplication<RuteplanleggerApplication>(*args)
 }
 
 
