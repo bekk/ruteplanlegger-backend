@@ -21,11 +21,7 @@ class RasteplasserService(val webClient: WebClient.Builder) {
     fun getAllRasteplasser(): List<Rasteplass>? {
         val apiURL = "https://nvdbapiles-v3.atlas.vegvesen.no/vegobjekter/39?antall=50&inkluder=egenskaper&inkluder_egenskaper=basis"
         val response = webClient.baseUrl(apiURL).build().get().retrieve().bodyToMono(JsonNode::class.java).block()
-        if (response is JsonNode) {
-            return retrieveNavnAndId(response)
-        } else {
-            return emptyList()
-        }
+        return if (response is JsonNode) retrieveNavnAndId(response) else emptyList()
     }
 
     // TODO: legge til at id blir sendt dynamisk

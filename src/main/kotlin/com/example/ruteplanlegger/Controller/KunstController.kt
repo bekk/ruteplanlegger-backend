@@ -1,5 +1,6 @@
 package com.example.ruteplanlegger.controller
 
+import com.example.ruteplanlegger.Model.Kunst
 import com.example.ruteplanlegger.Service.KunstService
 import com.fasterxml.jackson.databind.JsonNode
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 class KunstController(val kunstService: KunstService) {
 
     @GetMapping
-    fun getKunstOgUtsmykking(): JsonNode? {
+    fun getKunstOgUtsmykking(): List<Kunst>? {
         return kunstService.getKunstOgUtsmykking()
     }
 }
