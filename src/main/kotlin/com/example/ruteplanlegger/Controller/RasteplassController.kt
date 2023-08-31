@@ -18,4 +18,6 @@ class Rasteplasser(val rasteplasserService: RasteplasserService) {
     }
 
 
+
+
 }
