@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 
 fun createMinimalKunstObject(data: JsonNode): List<Kunst> {
-    println(data["objekter"])
-
     return data["objekter"].map { kunst ->
         val id = kunst["id"].asInt()
         val tittel = kunst["egenskaper"].find {
