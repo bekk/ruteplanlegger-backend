@@ -1,4 +1,4 @@
-package com.example.ruteplanlegger.Service
+package com.example.ruteplanlegger.service
 
 import com.example.ruteplanlegger.Model.Rasteplass
 import com.fasterxml.jackson.databind.JsonNode
