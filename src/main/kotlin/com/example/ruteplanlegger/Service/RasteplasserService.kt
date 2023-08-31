@@ -1,4 +1,4 @@
-package com.example.ruteplanlegger.service
+package com.example.ruteplanlegger.Service
 
 import com.example.ruteplanlegger.Model.Rasteplass
 import com.fasterxml.jackson.databind.JsonNode
@@ -41,10 +41,6 @@ class RasteplasserService(val webClient: WebClient.Builder) {
         val apiURL =
             "https://nvdbapiles-v3.atlas.vegvesen.no/vegobjekter/39?antall=50&inkluder=vegsegmenter,egenskaper&inkluder_egenskaper=basis"
         val response = webClient.baseUrl(apiURL).build().get().retrieve().bodyToMono(JsonNode::class.java).block()
-        if (response is JsonNode) {
-            return createMinimalResteplassObject(response)
-        } else {
-            return emptyList()
-        }
+        return if (response is JsonNode) createMinimalResteplassObject(response) else emptyList()
     }
 }
