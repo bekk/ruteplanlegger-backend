@@ -6,31 +6,45 @@ import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 
 
-fun retrieveNavnAndId(data: JsonNode): List<Rasteplass> {
+fun createMinimalResteplassObject(data: JsonNode): List<Rasteplass> {
     return data["objekter"].map { rasteplass ->
         val id = rasteplass["id"].asInt()
         val navn = rasteplass["egenskaper"]
             .find { it["id"].asInt() == 1074 }
             ?.get("verdi")?.asText() ?: ""
-        Rasteplass(id, navn)
+
+        val vegkategori = rasteplass["vegsegmenter"]
+            .firstOrNull()
+            ?.get("vegsystemreferanse")
+            ?.get("vegsystem")
+            ?.get("vegkategori")
+            ?.asText()
+            ?: ""
+
+        val vegnummer = rasteplass["vegsegmenter"]
+            .firstOrNull()
+            ?.get("vegsystemreferanse")
+            ?.get("vegsystem")
+            ?.get("nummer")
+            ?.asText()
+            ?: ""
+
+        val veg = vegkategori + vegnummer
+
+        Rasteplass(id = id, navn = navn, veg = veg)
     }
 }
 
 @Service
 class RasteplasserService(val webClient: WebClient.Builder) {
     fun getAllRasteplasser(): List<Rasteplass>? {
-        val apiURL = "https://nvdbapiles-v3.atlas.vegvesen.no/vegobjekter/39?antall=50&inkluder=egenskaper&inkluder_egenskaper=basis"
+        val apiURL =
+            "https://nvdbapiles-v3.atlas.vegvesen.no/vegobjekter/39?antall=50&inkluder=vegsegmenter,egenskaper&inkluder_egenskaper=basis"
         val response = webClient.baseUrl(apiURL).build().get().retrieve().bodyToMono(JsonNode::class.java).block()
         if (response is JsonNode) {
-            return retrieveNavnAndId(response)
+            return createMinimalResteplassObject(response)
         } else {
             return emptyList()
         }
-    }
-
-    // TODO: legge til at id blir sendt dynamisk
-    fun getRasteplassById(): String? {
-        val apiURL = "https://nvdbapiles-v3.atlas.vegvesen.no/vegobjekter/39/91203457/6"
-        return webClient.baseUrl(apiURL).build().get().retrieve().bodyToMono(String::class.java).block()
     }
 }
