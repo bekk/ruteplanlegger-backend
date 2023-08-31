@@ -19,22 +19,22 @@ fun createMinimalKunstObject(data: JsonNode): List<Kunst> {
         val vegnummer = kunst["vegsegmenter"].firstOrNull()
             ?.get("vegsystemreferanse")
             ?.get("vegsystem")
-            ?.get("nummer")
+            ?.get("nummer")?.asInt() ?: 0
         val vegkategori = kunst["vegsegmenter"].firstOrNull()
             ?.get("vegsystemreferanse")
             ?.get("vegsystem")
-            ?.get("vegkategori")?.asText()
-        val veg = vegkategori + vegnummer
-        Kunst(id, tittel, type, veg)
+            ?.get("vegkategori")?.asText() ?: ""
+        Kunst(id, tittel, type, vegkategori, vegnummer)
     }
 
 }
-    @Service
-    class KunstService(val webClient: WebClient.Builder) {
-        fun getKunstOgUtsmykking(): List<Kunst>? {
-            val apiURL =
-                "https://nvdbapiles-v3.atlas.vegvesen.no/vegobjekter/19?antall=50&inkluder=egenskaper,vegsegmenter&inkluder_egenskaper=basis&egenskap=(1101!=null)"
-            val response = webClient.baseUrl(apiURL).build().get().retrieve().bodyToMono(JsonNode::class.java).block()
-            return if (response is JsonNode) createMinimalKunstObject(response) else emptyList()
-        }
+
+@Service
+class KunstService(val webClient: WebClient.Builder) {
+    fun getKunstOgUtsmykking(): List<Kunst>? {
+        val apiURL =
+            "https://nvdbapiles-v3.atlas.vegvesen.no/vegobjekter/19?antall=50&inkluder=egenskaper,vegsegmenter&inkluder_egenskaper=basis&egenskap=(1101!=null)"
+        val response = webClient.baseUrl(apiURL).build().get().retrieve().bodyToMono(JsonNode::class.java).block()
+        return if (response is JsonNode) createMinimalKunstObject(response) else emptyList()
     }
+}
