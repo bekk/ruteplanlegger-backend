@@ -26,12 +26,11 @@ fun createMinimalResteplassObject(data: JsonNode): List<Rasteplass> {
             ?.get("vegsystemreferanse")
             ?.get("vegsystem")
             ?.get("nummer")
-            ?.asText()
-            ?: ""
+            ?.asInt()
+            ?: 0
 
-        val veg = vegkategori + vegnummer
 
-        Rasteplass(id = id, navn = navn, veg = veg)
+        Rasteplass(id = id, navn = navn, vegkategori = vegkategori, vegnummer = vegnummer)
     }
 }
 
