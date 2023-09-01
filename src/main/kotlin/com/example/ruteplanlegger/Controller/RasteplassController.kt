@@ -16,8 +16,4 @@ class Rasteplasser(val rasteplasserService: RasteplasserService) {
     fun getRasteplasser(): List<Rasteplass>? {
         return rasteplasserService.getAllRasteplasser()
     }
-
-
-
-
 }
