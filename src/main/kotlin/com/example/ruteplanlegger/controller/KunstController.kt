@@ -1,8 +1,7 @@
-package com.example.ruteplanlegger.controller
+package com.example.ruteplanlegger.Controller
 
 import com.example.ruteplanlegger.Model.Kunst
 import com.example.ruteplanlegger.Service.KunstService
-import com.fasterxml.jackson.databind.JsonNode
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping

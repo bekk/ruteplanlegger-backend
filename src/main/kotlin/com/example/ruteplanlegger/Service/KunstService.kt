@@ -19,13 +19,14 @@ fun retrieveTittelTypeandId(data: JsonNode): List<Kunst> {
     }
 
 }
-    @Service
-    class KunstService(val webClient: WebClient.Builder) {
-        fun getKunstOgUtsmykking(): List<Kunst>? {
-            val apiURL =
-                "https://nvdbapiles-v3.atlas.vegvesen.no/vegobjekter/19?inkluder=egenskaper&antall=30&egenskap=(1101!=null)"
 
-            val response = webClient.baseUrl(apiURL).build().get().retrieve().bodyToMono(JsonNode::class.java).block()
-            return if (response is JsonNode) retrieveTittelTypeandId(response) else emptyList()
-        }
+@Service
+class KunstService(val webClient: WebClient.Builder) {
+    fun getKunstOgUtsmykking(): List<Kunst>? {
+        val apiURL =
+            "https://nvdbapiles-v3.atlas.vegvesen.no/vegobjekter/19?inkluder=egenskaper&antall=30&egenskap=(1101!=null)"
+
+        val response = webClient.baseUrl(apiURL).build().get().retrieve().bodyToMono(JsonNode::class.java).block()
+        return if (response is JsonNode) retrieveTittelTypeandId(response) else emptyList()
     }
+}
