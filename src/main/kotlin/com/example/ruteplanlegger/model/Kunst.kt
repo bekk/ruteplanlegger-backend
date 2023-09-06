@@ -6,5 +6,6 @@ data class Kunst(
     val type: String = "",
     val vegkategori: String = "",
     val vegnummer: Int = 0,
+    val geometri: Geometri
 
 )
