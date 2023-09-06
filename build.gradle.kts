@@ -26,6 +26,7 @@ dependencies {
     implementation("org.springframework:spring-web:6.0.11")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation("org.json:json:20230227")
+    implementation("org.locationtech.jts:jts-core:1.17.0")
 }
 
 tasks.withType<KotlinCompile> {

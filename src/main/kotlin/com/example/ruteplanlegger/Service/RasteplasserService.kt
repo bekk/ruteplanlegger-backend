@@ -1,13 +1,31 @@
 package com.example.ruteplanlegger.Service
 
+import com.example.ruteplanlegger.Model.Geometri
+import com.example.ruteplanlegger.Model.LatLong
 import com.example.ruteplanlegger.Model.Rasteplass
 import com.fasterxml.jackson.databind.JsonNode
+import org.locationtech.jts.geom.Geometry
+import org.locationtech.jts.io.WKTReader
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 
+fun createGeometri(geometri: JsonNode): Geometri {
+    val wktNode = geometri["wkt"]
+    val wkt = wktNode.asText()
+    val wktReader = WKTReader()
+    val geometry: Geometry = wktReader.read(wkt)
+    val centroid =
+        geometry.centroid //gir et Point som er ca. i midten av en Linestring/Polygon
+    val lat: Double = centroid.coordinate.y
+    val long: Double = centroid.coordinate.x
+    val latLongObject = LatLong(long, lat)
+
+    return Geometri(type = "Point", coordinates = latLongObject)
+}
 
 fun createMinimalResteplassObject(data: JsonNode): List<Rasteplass> {
     return data["objekter"].map { rasteplass ->
+
         val id = rasteplass["id"].asInt()
         val navn = rasteplass["egenskaper"]
             .find { it["id"].asInt() == 1074 }
@@ -29,8 +47,9 @@ fun createMinimalResteplassObject(data: JsonNode): List<Rasteplass> {
             ?.asInt()
             ?: 0
 
+        val geometry = createGeometri(rasteplass["geometri"])
 
-        Rasteplass(id = id, navn = navn, vegkategori = vegkategori, vegnummer = vegnummer)
+        Rasteplass(id = id, navn = navn, vegkategori = vegkategori, vegnummer = vegnummer, geometri = geometry)
     }
 }
 
