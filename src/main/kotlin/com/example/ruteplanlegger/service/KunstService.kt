@@ -1,6 +1,7 @@
 package com.example.ruteplanlegger.service
 
 import com.example.ruteplanlegger.model.Kunst
+import com.example.ruteplanlegger.service.utils.createGeometri
 import com.fasterxml.jackson.databind.JsonNode
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
