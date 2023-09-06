@@ -1,8 +1,8 @@
-package com.example.ruteplanlegger.Service
+package com.example.ruteplanlegger.service
 
-import com.example.ruteplanlegger.Model.Geometri
-import com.example.ruteplanlegger.Model.LatLong
-import com.example.ruteplanlegger.Model.Rasteplass
+import com.example.ruteplanlegger.model.Geometri
+import com.example.ruteplanlegger.model.LatLong
+import com.example.ruteplanlegger.model.Rasteplass
 import com.fasterxml.jackson.databind.JsonNode
 import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.io.WKTReader

@@ -1,7 +1,7 @@
-package com.example.ruteplanlegger.Controller
+package com.example.ruteplanlegger.controller
 
-import com.example.ruteplanlegger.Model.Rasteplass
-import com.example.ruteplanlegger.Service.RasteplasserService
+import com.example.ruteplanlegger.model.Rasteplass
+import com.example.ruteplanlegger.service.RasteplasserService
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
