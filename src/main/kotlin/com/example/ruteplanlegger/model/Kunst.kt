@@ -1,4 +1,4 @@
-package com.example.ruteplanlegger.Model
+package com.example.ruteplanlegger.model
 
 data class Kunst(
     val id: Int = 0,
