@@ -1,28 +1,44 @@
 package com.example.ruteplanlegger.service
 
 import com.example.ruteplanlegger.model.Kunst
+import com.example.ruteplanlegger.service.utils.createGeometri
 import com.fasterxml.jackson.databind.JsonNode
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 
 fun createMinimalKunstObject(data: JsonNode): List<Kunst> {
     return data["objekter"].map { kunst ->
+
         val id = kunst["id"].asInt()
+
         val tittel = kunst["egenskaper"].find {
             it["id"].asInt() == 1733
         }?.get("verdi")?.asText() ?: ""
+
         val type = kunst["egenskaper"].find {
             it["id"].asInt() == 1101
         }?.get("verdi")?.asText() ?: ""
+
         val vegnummer = kunst["vegsegmenter"].firstOrNull()
             ?.get("vegsystemreferanse")
             ?.get("vegsystem")
             ?.get("nummer")?.asInt() ?: 0
+
         val vegkategori = kunst["vegsegmenter"].firstOrNull()
             ?.get("vegsystemreferanse")
             ?.get("vegsystem")
             ?.get("vegkategori")?.asText() ?: ""
-        Kunst(id, tittel, type, vegkategori, vegnummer)
+
+        val geometry = createGeometri(kunst["geometri"])
+
+        Kunst(
+            id = id,
+            tittel = tittel,
+            type = type,
+            vegkategori = vegkategori,
+            vegnummer = vegnummer,
+            geometri = geometry
+        )
     }
 
 }
