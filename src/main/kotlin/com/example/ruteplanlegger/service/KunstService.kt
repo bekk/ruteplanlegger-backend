@@ -15,7 +15,7 @@ fun createMinimalKunstObject(data: JsonNode): List<Kunst> {
             it["id"].asInt() == 1733
         }?.get("verdi")?.asText() ?: ""
 
-        val type = kunst["egenskaper"].find {
+        val kunstType = kunst["egenskaper"].find {
             it["id"].asInt() == 1101
         }?.get("verdi")?.asText() ?: ""
 
@@ -34,7 +34,7 @@ fun createMinimalKunstObject(data: JsonNode): List<Kunst> {
         Kunst(
             id = id,
             tittel = tittel,
-            type = type,
+            kunstType = kunstType,
             vegkategori = vegkategori,
             vegnummer = vegnummer,
             geometri = geometry
