@@ -7,4 +7,7 @@ data class Rasteplass(
     val vegkategori: String = "",
     val vegnummer: Int = 0,
     val geometri: Geometri,
+    val toalett: Boolean,
+    val utemobler: Boolean,
+    val lekeapparat: Boolean
 )
