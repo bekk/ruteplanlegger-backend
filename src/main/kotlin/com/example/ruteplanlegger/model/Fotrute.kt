@@ -6,4 +6,4 @@ data class Fotrute(
     val navn: String = "",
     val rutenummer: String = "",
 
-)
+    )
