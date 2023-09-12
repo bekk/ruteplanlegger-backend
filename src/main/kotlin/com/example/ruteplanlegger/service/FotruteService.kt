@@ -9,24 +9,17 @@ import org.springframework.stereotype.Service
 @Service
 class FotruteService {
 
-    fun getFotrute(): MutableList<Fotrute> {
+    fun getFotruter(): MutableList<Fotrute> {
         var df = DataFrame.read("fotrute.csv")
-        val listofFotruter = mutableListOf<Fotrute>()
-        for (rute in df.rows()) {
+        val listofFotruter = df.rows().map { row ->
+            val navn = row["rutenavn"].toString().replace(Regex("[''\\[\\]]"), "")
+            val rutenummer = row["rutenummer"].toString().replace(Regex("[''\\[\\]]"), "")
+            Fotrute(navn = navn, rutenummer = rutenummer)
+        }.toMutableList()
+        print(df["id"])
 
-            val navn = rute["rutenavn"].toString()
-                .replace(Regex("[''\\[\\]]"), "") //['Blåmerket sti Østmerket'] -> "Blåmerket sti Østmarka"
-            val rutenummer = rute["rutenummer"].toString()
-                .replace(Regex("[''\\[\\]]"), "") //['['F_20170614_01']'] -> "F_20170614_01"
-            val fotrute = Fotrute(navn = navn, rutenummer = rutenummer)
+    return listofFotruter
 
-            listofFotruter.add(fotrute)
-
-
-        }
-
-        return listofFotruter
-
-    }
+}
 
 }

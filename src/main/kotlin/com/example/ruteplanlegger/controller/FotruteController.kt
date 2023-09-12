@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController
 class FotruteController(val fotruteService: FotruteService) {
 
 
-    @RequestMapping("/fotrute")
+    @RequestMapping("/fotruter")
     fun getFotruter(): List<Fotrute> {
 
-        return fotruteService.getFotrute()
+        return fotruteService.getFotruter()
 
 
     }
