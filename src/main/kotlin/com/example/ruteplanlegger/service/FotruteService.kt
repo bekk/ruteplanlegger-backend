@@ -16,8 +16,6 @@ class FotruteService {
             val rutenummer = row["rutenummer"].toString().replace(Regex("[''\\[\\]]"), "")
             Fotrute(navn = navn, rutenummer = rutenummer)
         }.toMutableList()
-        print(df["id"])
-
     return listofFotruter
 
 }
