@@ -28,6 +28,7 @@ dependencies {
     implementation("org.json:json:20230227")
     implementation("org.locationtech.jts:jts-core:1.17.0")
     implementation("org.jetbrains.kotlinx:dataframe:0.11.1")
+    implementation("io.github.dellisd.spatialk:geojson:0.2.1")
 }
 
 tasks.withType<KotlinCompile> {
