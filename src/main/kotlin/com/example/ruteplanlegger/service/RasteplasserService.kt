@@ -5,6 +5,7 @@ import com.example.ruteplanlegger.service.utils.createGeometri
 import com.fasterxml.jackson.databind.JsonNode
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.util.UriComponentsBuilder
 
 fun createMinimalResteplassObject(data: JsonNode): List<Rasteplass> {
     val assosierteToalettanleggID = 220135
@@ -27,9 +28,15 @@ fun createMinimalResteplassObject(data: JsonNode): List<Rasteplass> {
 
         val geometry = createGeometri(rasteplass["geometri"])
 
-        val toalett = rasteplass["relasjoner"].get("barn").any { it["listeid"]?.asInt() == assosierteToalettanleggID }
-        val utemobler = rasteplass["relasjoner"].get("barn").any { it["listeid"]?.asInt() == assosierteUtemoblerID }
-        val lekeapparat = rasteplass["relasjoner"].get("barn").any { it["listeid"]?.asInt() == assosierteLekeapparatID }
+        val barn = rasteplass["relasjoner"]?.get("barn")
+
+
+
+
+
+        val toalett = rasteplass["relasjoner"]?.get("barn")?.any { it["listeid"]?.asInt() == assosierteToalettanleggID }
+        val utemobler = rasteplass["relasjoner"]?.get("barn")?.any { it["listeid"]?.asInt() == assosierteUtemoblerID }
+        val lekeapparat = rasteplass["relasjoner"]?.get("barn")?.any { it["listeid"]?.asInt() == assosierteLekeapparatID }
 
         Rasteplass(
             id = id,
@@ -48,9 +55,17 @@ fun createMinimalResteplassObject(data: JsonNode): List<Rasteplass> {
 @Service
 class RasteplasserService(val webClient: WebClient.Builder) {
     fun getAllRasteplasser(): List<Rasteplass>? {
-        val apiURL =
-            "https://nvdbapiles-v3.atlas.vegvesen.no/vegobjekter/39?antall=50&inkluder=vegsegmenter,egenskaper,geometri,relasjoner&inkluder_egenskaper=basis&srid=4326"
-        val response = webClient.baseUrl(apiURL).build().get().retrieve().bodyToMono(JsonNode::class.java).block()
+        val uri = UriComponentsBuilder
+            .fromUriString("https://nvdbapiles-v3.atlas.vegvesen.no/vegobjekter/39")
+            .queryParam("kartutsnitt", "8.0752408,61.4166883,11.027222,62.2085668")
+            .queryParam("inkluder", "vegsegmenter,egenskaper,geometri,relasjoner")
+            .queryParam("inkluder_egenskaper", "basis")
+            .queryParam("srid", "4326")
+            .toUriString()
+
+        // uri: https://nvdbapiles-v3.atlas.vegvesen.no/vegobjekter/39?kartutsnitt=8.0752408,61.4166883,11.027222,62.2085668&inkluder=vegsegmenter,egenskaper,geometri,relasjoner&inkluder_egenskaper=basis&srid=4326
+
+        val response = webClient.baseUrl(uri).build().get().retrieve().bodyToMono(JsonNode::class.java).block()
         return if (response is JsonNode) createMinimalResteplassObject(response) else emptyList()
     }
 }
