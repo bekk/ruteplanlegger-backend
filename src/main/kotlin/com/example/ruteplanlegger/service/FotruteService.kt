@@ -10,13 +10,14 @@ import org.springframework.stereotype.Service
 class FotruteService {
 
     fun getFotruter(): MutableList<Fotrute> {
-        var df = DataFrame.read("3-fotruter.csv")
+        var df = DataFrame.read("fotruter.csv")
         val listofFotruter = df.rows().map { row ->
             val navn = row["rutenavn"].toString()
-            val geometry: Any = row["geometry"]!!.toString()
+            val geometry: Any = row["geometry"].toString()
             val lengde = row["meter"].toString().toDouble()
-            val ruteFølger = row["ruteFølger"].toString()
-            val merking = row["merking"].toString()
+            val ruteFølgerString = row["ruteFølger"].toString().replace("[", "").replace("]", "").split(", ")
+            val ruteFølger = ruteFølgerString.map { it.trim('\'') }
+            val merking = row["merking"].toString().toBoolean()
             val skilting = row["skilting"].toString().toBoolean()
 
             Fotrute(navn = navn, geometri = geometry, lengde = lengde, ruteFølger = ruteFølger, merking = merking, skilting = skilting )
