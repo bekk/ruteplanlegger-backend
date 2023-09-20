@@ -7,6 +7,6 @@ RUN ./gradlew bootJar --no-daemon
 FROM openjdk:17-jdk-slim
 EXPOSE 8080
 COPY --from=build /build/libs/ruteplanlegger-1.jar app.jar
-COPY 3-fotruter.csv .
+COPY fotruter.csv .
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
