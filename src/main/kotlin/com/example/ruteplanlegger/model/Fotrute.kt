@@ -6,8 +6,9 @@ data class Fotrute(
     val type: String = "Fotrute",
     val lengde: Double = 0.0,
     val geometri: Any,
-    val ruteFølger: String = "",
-    val merking: String = "",
-    val skilting: Boolean = false
+    val ruteFølger: List<String>,
+    val merking: Boolean = false,
+    val skilting: Boolean = false,
+    val gradering: String
 
     )
