@@ -15,8 +15,8 @@ class FotruteService {
             val navn = row["rutenavn"].toString()
             val geometry: Any = row["geometry"].toString()
             val lengde = row["meter"].toString().toDouble()
-            val ruteFølgerString = row["ruteFølger"].toString().replace("[", "").replace("]", "").split(", ")
-            val ruteFølger = ruteFølgerString.map { it.trim('\'') }
+            val ruteFølgerString = row["ruteFølger"].toString().replace("[", "").replace("]", "").replace("'", "")
+            val ruteFølger = ruteFølgerString.split(", ")
             val merking = row["merking"].toString().toBoolean()
             val skilting = row["skilting"].toString().toBoolean()
             val gradering = row["gradering"].toString()
