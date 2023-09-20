@@ -19,8 +19,9 @@ class FotruteService {
             val ruteFølger = ruteFølgerString.map { it.trim('\'') }
             val merking = row["merking"].toString().toBoolean()
             val skilting = row["skilting"].toString().toBoolean()
+            val gradering = row["gradering"].toString()
 
-            Fotrute(navn = navn, geometri = geometry, lengde = lengde, ruteFølger = ruteFølger, merking = merking, skilting = skilting )
+            Fotrute(navn = navn, geometri = geometry, lengde = lengde, ruteFølger = ruteFølger, merking = merking, skilting = skilting, gradering = gradering )
         }.toMutableList()
     return listofFotruter
 
