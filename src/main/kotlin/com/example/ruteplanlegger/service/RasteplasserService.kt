@@ -27,9 +27,9 @@ fun createMinimalResteplassObject(data: JsonNode): List<Rasteplass> {
 
         val geometry = createGeometri(rasteplass["geometri"])
 
-        val toalett = rasteplass["relasjoner"].get("barn").any { it["listeid"]?.asInt() == assosierteToalettanleggID }
-        val utemobler = rasteplass["relasjoner"].get("barn").any { it["listeid"]?.asInt() == assosierteUtemoblerID }
-        val lekeapparat = rasteplass["relasjoner"].get("barn").any { it["listeid"]?.asInt() == assosierteLekeapparatID }
+        val toalett = rasteplass["relasjoner"]?.get("barn")?.any { it["listeid"]?.asInt() == assosierteToalettanleggID }
+        val utemobler = rasteplass["relasjoner"]?.get("barn")?.any { it["listeid"]?.asInt() == assosierteUtemoblerID }
+        val lekeapparat = rasteplass["relasjoner"]?.get("barn")?.any { it["listeid"]?.asInt() == assosierteLekeapparatID }
 
         Rasteplass(
             id = id,
@@ -49,7 +49,7 @@ fun createMinimalResteplassObject(data: JsonNode): List<Rasteplass> {
 class RasteplasserService(val webClient: WebClient.Builder) {
     fun getAllRasteplasser(): List<Rasteplass>? {
         val apiURL =
-            "https://nvdbapiles-v3.atlas.vegvesen.no/vegobjekter/39?antall=50&inkluder=vegsegmenter,egenskaper,geometri,relasjoner&inkluder_egenskaper=basis&srid=4326"
+            "https://nvdbapiles-v3.atlas.vegvesen.no/vegobjekter/39?kartutsnitt=8.0752408,61.4166883,11.027222,62.2085668&inkluder=vegsegmenter,egenskaper,geometri,relasjoner&inkluder_egenskaper=basis&srid=4326"
         val response = webClient.baseUrl(apiURL).build().get().retrieve().bodyToMono(JsonNode::class.java).block()
         return if (response is JsonNode) createMinimalResteplassObject(response) else emptyList()
     }

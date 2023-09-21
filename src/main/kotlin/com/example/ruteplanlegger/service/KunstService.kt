@@ -47,7 +47,7 @@ fun createMinimalKunstObject(data: JsonNode): List<Kunst> {
 class KunstService(val webClient: WebClient.Builder) {
     fun getKunstOgUtsmykking(): List<Kunst>? {
         val apiURL =
-            "https://nvdbapiles-v3.atlas.vegvesen.no/vegobjekter/19?antall=50&inkluder=egenskaper,vegsegmenter,geometri&inkluder_egenskaper=basis&egenskap=(1101!=null)&srid=4326"
+            "https://nvdbapiles-v3.atlas.vegvesen.no/vegobjekter/19?kartutsnitt=8.0752408,61.4166883,11.027222,62.2085668&inkluder=egenskaper,vegsegmenter,geometri&inkluder_egenskaper=basis&egenskap=(1101!=null)&srid=4326"
         val response = webClient.baseUrl(apiURL).build().get().retrieve().bodyToMono(JsonNode::class.java).block()
         return if (response is JsonNode) createMinimalKunstObject(response) else emptyList()
     }
