@@ -31,6 +31,7 @@ fun createMinimalResteplassObject(data: JsonNode): List<Rasteplass> {
         val toalett = rasteplass["relasjoner"]?.get("barn")?.any { it["listeid"]?.asInt() == assosierteToalettanleggID }
         val utemobler = rasteplass["relasjoner"]?.get("barn")?.any { it["listeid"]?.asInt() == assosierteUtemoblerID }
         val lekeapparat = rasteplass["relasjoner"]?.get("barn")?.any { it["listeid"]?.asInt() == assosierteLekeapparatID }
+        val anbefalt = id in recommendedRasteplassList
 
 
         Rasteplass(
@@ -42,6 +43,7 @@ fun createMinimalResteplassObject(data: JsonNode): List<Rasteplass> {
             toalett = toalett,
             utemobler = utemobler,
             lekeapparat = lekeapparat,
+            anbefalt = anbefalt
         )
     }
 }
