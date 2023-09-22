@@ -10,5 +10,5 @@ data class Rasteplass(
     val toalett: Boolean?,
     val utemobler: Boolean?,
     val lekeapparat: Boolean?,
-    val anbefalt: Boolean?,
+    val anbefalt: Boolean = false,
 )
