@@ -9,6 +9,6 @@ data class Fotrute(
     val ruteFølger: List<String>,
     val merking: Boolean = false,
     val skilting: Boolean = false,
-    val gradering: String
-
+    val gradering: String,
+    val anbefalt: Boolean = false
     )
