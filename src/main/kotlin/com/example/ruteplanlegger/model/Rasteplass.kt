@@ -9,5 +9,6 @@ data class Rasteplass(
     val geometri: Geometri,
     val toalett: Boolean?,
     val utemobler: Boolean?,
-    val lekeapparat: Boolean?
+    val lekeapparat: Boolean?,
+    val anbefalt: Boolean?,
 )

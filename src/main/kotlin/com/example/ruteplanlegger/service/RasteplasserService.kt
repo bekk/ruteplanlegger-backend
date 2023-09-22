@@ -39,7 +39,8 @@ fun createMinimalResteplassObject(data: JsonNode): List<Rasteplass> {
             geometri = geometry,
             toalett = toalett,
             utemobler = utemobler,
-            lekeapparat = lekeapparat
+            lekeapparat = lekeapparat,
+            anbefalt = false
         )
     }
 }
