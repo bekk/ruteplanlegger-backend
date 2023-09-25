@@ -2,6 +2,7 @@ package com.example.ruteplanlegger.model
 
 
 data class Fotrute(
+    val id: Int = 0,
     val navn: String = "",
     val type: String = "Fotrute",
     val lengde: Double = 0.0,
