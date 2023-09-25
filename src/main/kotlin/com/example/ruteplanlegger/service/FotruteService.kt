@@ -3,19 +3,11 @@ package com.example.ruteplanlegger.service
 import com.example.ruteplanlegger.model.Fotrute
 import com.example.ruteplanlegger.model.GeoJSONGeometryCollection
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.jetbrains.kotlinx.dataframe.DataFrame
-import org.jetbrains.kotlinx.dataframe.api.rows
-import org.jetbrains.kotlinx.dataframe.io.read
-import org.jetbrains.kotlinx.dataframe.io.readCSV
 import org.springframework.stereotype.Service
 
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
 import java.io.FileReader
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
-import org.locationtech.jts.geom.Geometry
-
 
 @Service
 class FotruteService {
@@ -26,8 +18,10 @@ class FotruteService {
 
         val listofFotruter = mutableListOf<Fotrute>()
 
-        for (record in csvParser.records) {
+        val recommendedFotruteList = listOf(515)
 
+        for (record in csvParser.records) {
+            val id = record["id"].toInt()
             val navn = record["rutenavn"]
             val lengde = record["meter"].toDouble()
             val ruteFølgerString = record["ruteFølger"].toString().replace("[", "").replace("]", "").replace("'", "")
@@ -41,14 +35,18 @@ class FotruteService {
             val geoJSONFeatureCollection =
                 objectMapper.readValue(geometryJsonString, GeoJSONGeometryCollection::class.java)
 
+            val anbefalt = id in recommendedFotruteList
+
             val fotrute = Fotrute(
+                id = id,
                 navn = navn,
                 geometri = geoJSONFeatureCollection,
                 lengde = lengde,
                 ruteFølger = ruteFølger,
                 merking = merking,
                 skilting = skilting,
-                gradering = gradering
+                gradering = gradering,
+                anbefalt = anbefalt
             )
             listofFotruter.add(fotrute)
         }
