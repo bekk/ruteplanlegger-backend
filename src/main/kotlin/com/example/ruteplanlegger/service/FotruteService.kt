@@ -25,8 +25,11 @@ class FotruteService {
             val id = record["id"].toInt()
             val navn = record["rutenavn"]
             val lengde = record["meter"].toDouble()
+            val beskrivelse = record["beskrivelse"]
+
             val ruteFølgerString = record["ruteFølger"].toString().replace("[", "").replace("]", "").replace("'", "")
             val ruteFølger = ruteFølgerString.split(", ")
+
             val merking = record["merking"].toBoolean()
             val skilting = record["skilting"].toBoolean()
             val gradering = record["gradering"]
@@ -37,11 +40,12 @@ class FotruteService {
                 objectMapper.readValue(geometryJsonString, GeoJSONGeometryCollection::class.java)
 
             val anbefalt = id in recommendedFotruteList
-            val startLatLongk = LatLong(record["startLat"].toDouble(), record["startLong"].toDouble())
+            val startLatLong = LatLong(record["startLat"].toDouble(), record["startLong"].toDouble())
 
             val fotrute = Fotrute(
                 id = id,
                 navn = navn,
+                beskrivelse = beskrivelse,
                 geometri = geoJSONFeatureCollection,
                 lengde = lengde,
                 ruteFølger = ruteFølger,
@@ -49,7 +53,7 @@ class FotruteService {
                 skilting = skilting,
                 gradering = gradering,
                 anbefalt = anbefalt,
-                starLatLong = startLatLongk
+                startLatLong = startLatLong
             )
             listofFotruter.add(fotrute)
         }
