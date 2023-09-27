@@ -11,5 +11,6 @@ data class Fotrute(
     val merking: Boolean = false,
     val skilting: Boolean = false,
     val gradering: String,
-    val anbefalt: Boolean = false
+    val anbefalt: Boolean = false,
+    val starLatLong: LatLong,
     )

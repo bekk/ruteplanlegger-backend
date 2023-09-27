@@ -2,6 +2,7 @@ package com.example.ruteplanlegger.service
 
 import com.example.ruteplanlegger.model.Fotrute
 import com.example.ruteplanlegger.model.GeoJSONGeometryCollection
+import com.example.ruteplanlegger.model.LatLong
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.stereotype.Service
 
@@ -36,6 +37,7 @@ class FotruteService {
                 objectMapper.readValue(geometryJsonString, GeoJSONGeometryCollection::class.java)
 
             val anbefalt = id in recommendedFotruteList
+            val startLatLongk = LatLong(record["startLat"].toDouble(), record["startLong"].toDouble())
 
             val fotrute = Fotrute(
                 id = id,
@@ -46,7 +48,8 @@ class FotruteService {
                 merking = merking,
                 skilting = skilting,
                 gradering = gradering,
-                anbefalt = anbefalt
+                anbefalt = anbefalt,
+                starLatLong = startLatLongk
             )
             listofFotruter.add(fotrute)
         }

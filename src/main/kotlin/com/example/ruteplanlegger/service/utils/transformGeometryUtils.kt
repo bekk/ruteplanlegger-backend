@@ -14,9 +14,9 @@ fun createGeometri(geometri: JsonNode): Geometri {
     val geometry: Geometry = wktReader.read(wkt)
     val centroid =
         geometry.centroid //gir et Point som er ca. i midten av en Linestring/Polygon
-    val lat: Double = centroid.coordinate.y
-    val long: Double = centroid.coordinate.x
-    val latLongObject = LatLong(long, lat)
+    val lat: Double = centroid.coordinate.x
+    val long: Double = centroid.coordinate.y
+    val latLongObject = LatLong(lat, long)
 
     return Geometri(type = "Point", coordinates = latLongObject)
 }
