@@ -8,8 +8,8 @@ data class Geometri(
 )
 
 data class LatLong(
-    val long: Double,
-    var lat: Double
+    var lat: Double,
+    val long: Double
 )
 
 data class GeoJSONGeometryCollection(
