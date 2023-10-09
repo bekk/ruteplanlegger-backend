@@ -5,6 +5,7 @@ import com.example.ruteplanlegger.service.RasteplasserService
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -13,7 +14,10 @@ import org.springframework.web.bind.annotation.RestController
 class Rasteplasser(val rasteplasserService: RasteplasserService) {
 
     @GetMapping
-    fun getRasteplasser(): List<Rasteplass>? {
+    fun getRasteplasser(@RequestParam(required = false) anbefalt: Boolean): List<Rasteplass>? {
+        if (anbefalt == true) {
+            return rasteplasserService.getRecommendedRasteplasser()
+        }
         return rasteplasserService.getAllRasteplasser()
     }
 }

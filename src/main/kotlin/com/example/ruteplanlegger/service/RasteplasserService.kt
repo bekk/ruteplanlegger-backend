@@ -55,6 +55,16 @@ class RasteplasserService(val webClient: WebClient.Builder) {
         val apiURL =
             "https://nvdbapiles-v3.atlas.vegvesen.no/vegobjekter/39?kartutsnitt=8.0752408,61.4166883,11.027222,62.2085668&inkluder=vegsegmenter,egenskaper,geometri,relasjoner&inkluder_egenskaper=basis&srid=4326"
         val response = webClient.baseUrl(apiURL).build().get().retrieve().bodyToMono(JsonNode::class.java).block()
+        //val minimalResponse = if (response is JsonNode) createMinimalResteplassObject(response) else emptyList()
+        //val reco
         return if (response is JsonNode) createMinimalResteplassObject(response) else emptyList()
     }
+
+    fun getRecommendedRasteplasser(): List<Rasteplass>? {
+        val allRasteplasser = getAllRasteplasser()
+        val recommended = allRasteplasser?.filter { it.anbefalt }
+
+        return recommended;
+    }
 }
+
