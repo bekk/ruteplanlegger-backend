@@ -60,5 +60,11 @@ class FotruteService {
 
         return listofFotruter
     }
+
+    fun getRecommendedFotruter(): List<Fotrute> {
+        val allFotruter = getFotruter()
+        val recommended = allFotruter.filter { it.anbefalt }
+        return recommended
+    }
 }
 
