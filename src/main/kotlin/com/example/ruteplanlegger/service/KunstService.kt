@@ -51,4 +51,10 @@ class KunstService(val webClient: WebClient.Builder) {
         val response = webClient.baseUrl(apiURL).build().get().retrieve().bodyToMono(JsonNode::class.java).block()
         return if (response is JsonNode) createMinimalKunstObject(response) else emptyList()
     }
+
+    fun getRecommendedKunstOgUtsmykking(): List<Kunst>? {
+        val allKunstOgUstmykking = getKunstOgUtsmykking()
+        val recommended = allKunstOgUstmykking?.filter { it.anbefalt }
+        return recommended
+    }
 }
