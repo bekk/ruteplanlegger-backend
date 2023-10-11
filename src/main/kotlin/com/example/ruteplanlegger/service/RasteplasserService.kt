@@ -51,7 +51,7 @@ fun createMinimalResteplassObject(data: JsonNode): List<Rasteplass> {
 
 @Service
 class RasteplasserService(val webClient: WebClient.Builder) {
-    fun getAllRasteplasser(): List<Rasteplass>? {
+    fun getRasteplasser(): List<Rasteplass>? {
         val apiURL =
             "https://nvdbapiles-v3.atlas.vegvesen.no/vegobjekter/39?kartutsnitt=8.0752408,61.4166883,11.027222,62.2085668&inkluder=vegsegmenter,egenskaper,geometri,relasjoner&inkluder_egenskaper=basis&srid=4326"
         val response = webClient.baseUrl(apiURL).build().get().retrieve().bodyToMono(JsonNode::class.java).block()

@@ -11,11 +11,7 @@ import org.springframework.web.bind.annotation.*
 class FotruteController(val fotruteService: FotruteService) {
 
     @GetMapping
-    fun getFotruter(@RequestParam(required = false) anbefalt: Boolean): List<Fotrute> {
-        if (anbefalt == true) {
-            return fotruteService.getRecommendedFotruter()
-        }
-        return fotruteService.getFotruter()
-    }
+    fun getFotruter(@RequestParam(required = false) anbefalt: Boolean): List<Fotrute> =
+        if (anbefalt) fotruteService.getRecommendedFotruter() else fotruteService.getFotruter()
 
 }

@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.*
 class KunstController(val kunstService: KunstService) {
 
     @GetMapping
-    fun getKunstOgUtsmykking(@RequestParam(required = false) anbefalt: Boolean): List<Kunst>? {
-        if (anbefalt == true) {
-            return kunstService.getRecommendedKunstOgUtsmykking()
-        }
-        return kunstService.getKunstOgUtsmykking()
-    }
+    fun getKunstOgUtsmykking(@RequestParam(required = false) anbefalt: Boolean): List<Kunst>? =
+        if (anbefalt) kunstService.getRecommendedKunstOgUtsmykking() else kunstService.getKunstOgUtsmykking()
+
 }
