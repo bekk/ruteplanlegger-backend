@@ -59,7 +59,7 @@ class RasteplasserService(val webClient: WebClient.Builder) {
     }
 
     fun getRecommendedRasteplasser(): List<Rasteplass>? {
-        val allRasteplasser = getAllRasteplasser()
+        val allRasteplasser = getRasteplasser()
         val recommended = allRasteplasser?.filter { it.anbefalt }
         return recommended;
     }
