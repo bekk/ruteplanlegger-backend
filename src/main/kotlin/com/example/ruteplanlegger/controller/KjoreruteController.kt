@@ -1,6 +1,7 @@
 package com.example.ruteplanlegger.controller
 
 import com.example.ruteplanlegger.model.Kjorerute
+import com.example.ruteplanlegger.model.LatLong
 import com.example.ruteplanlegger.service.KjoreruteService
 import org.springframework.web.bind.annotation.*
 
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*
 class KjoreruteController(val kjoreruteService: KjoreruteService) {
 
     @GetMapping
-    fun getFotruter(@RequestParam(required = false) anbefalt: Boolean):  List<Kjorerute>? {
+    fun getFotruter(@RequestParam start: List<Double>, @RequestParam slutt: List<Double>):  List<Kjorerute>? {
         return kjoreruteService.getKjoreruteOsloHamar()
     }
 
