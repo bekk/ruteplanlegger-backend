@@ -20,7 +20,7 @@ fun createStedsnavnObject(data: JsonNode) : List<Stedsnavn> {
 @Service
 class StedsnavnService (val webClient: WebClient.Builder){
     fun getStedsnavn(query: String): List<Stedsnavn>?{
-        val apiURL = "https://ws.geonorge.no/stedsnavn/v1/navn?sok=$query*&maxAnt=20&antPerSide=20&eksakteForst=true"
+        val apiURL = "https://ws.geonorge.no/stedsnavn/v1/navn?sok=$query*&maxAnt=10&antPerSide=10&eksakteForst=true"
         val response = webClient.baseUrl(apiURL).build().get().retrieve().bodyToMono(JsonNode::class.java).block()
         return if (response is JsonNode) createStedsnavnObject(response) else emptyList()
     }
