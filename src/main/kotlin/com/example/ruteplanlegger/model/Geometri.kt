@@ -1,6 +1,7 @@
 package com.example.ruteplanlegger.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.databind.JsonNode
 
 data class Geometri(
     val type: String = "Point",
@@ -10,6 +11,11 @@ data class Geometri(
 data class LatLong(
     var lat: Double,
     val long: Double
+)
+
+data class GeoJSONFeatureCollection(
+    @JsonProperty("type") val type: String,
+    @JsonProperty("features") val features: JsonNode
 )
 
 data class GeoJSONGeometryCollection(
