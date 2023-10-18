@@ -11,11 +11,6 @@ import org.springframework.web.bind.annotation.*
 
 class KjoreruteController(val kjoreruteService: KjoreruteService) {
 
-    @GetMapping("/oslo-hamar")
-    fun getKjoreruteOsloHamar():  Kjorerute? {
-        return kjoreruteService.getKjoreruteOsloHamar()
-    }
-
     @GetMapping
     fun getKjoreruter(@RequestParam start: List<Double>, @RequestParam slutt: List<Double>):  Kjorerute? {
         return kjoreruteService.getKjoreruter(start, slutt)

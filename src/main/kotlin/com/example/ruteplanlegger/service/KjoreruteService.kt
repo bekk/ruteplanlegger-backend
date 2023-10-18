@@ -34,21 +34,11 @@ fun createMinimalKjorerute(data: JsonNode): Kjorerute {
 
 @Service
 class KjoreruteService(val webClient: WebClient.Builder) {
-    fun getKjoreruteOsloHamar(): Kjorerute? {
-        // %2C er det samme som ,
-        // %3B er det samme som ;
-        val apiURL =
-            "https://www.vegvesen.no/ws/no/vegvesen/ruteplan/routingservice_v3_0/open/routingService/api/Route/best?Stops=10.73353,59.91187;10.39506,63.43048&InputSRS=EPSG_4326&OutputSRS=EPSG_4326&ReturnFields=Geometry"
-        val response = webClient.baseUrl(apiURL).codecs { it.defaultCodecs().maxInMemorySize(2000 * 1024) }
-            .defaultHeader(HttpHeaders.ACCEPT_ENCODING, "gzip, deflate").build().get().retrieve()
-            .bodyToMono(JsonNode::class.java).block()
-
-        return if (response is JsonNode) createMinimalKjorerute(response) else null
-    }
 
     fun getKjoreruter(start: List<Double>, slutt: List<Double>): Kjorerute? {
-        // Test: http://localhost:8080/kjoreruter?start=59.91187,10.73353&slutt=63.43048,10.39506 //oslo - trondheim
-        // https://www.vegvesen.no/ws/no/vegvesen/ruteplan/routingservice_v3_0/open/routingService/api/Route/best?Stops=10.73353,59.91187;10.39506,63.43048&InputSRS=EPSG_4326&OutputSRS=EPSG_4326&ReturnFields=Geometry&StartTime=20231016132012
+        // %2C er det samme som ,
+        // %3B er det samme som ;
+        // Test: http://localhost:8080/kjoreruter?start=59.91187,10.73353&slutt=63.43048,10.39506 // oslo - trondheim
         val startLat = start[0]
         val startLong = start[1]
         val sluttLat = slutt[0]
@@ -56,12 +46,9 @@ class KjoreruteService(val webClient: WebClient.Builder) {
 
         val apiURL =
             "https://www.vegvesen.no/ws/no/vegvesen/ruteplan/routingservice_v3_0/open/routingService/api/Route/best?Stops=$startLong,$startLat;$sluttLong,$sluttLat&InputSRS=EPSG_4326&OutputSRS=EPSG_4326&ReturnFields=Geometry"
-        val response = webClient.baseUrl(apiURL).codecs { it.defaultCodecs().maxInMemorySize(2000 * 1024) }
+        val response = webClient.baseUrl(apiURL).codecs { it.defaultCodecs().maxInMemorySize(1300 * 1024) }
             .defaultHeader(HttpHeaders.ACCEPT_ENCODING, "gzip, deflate").build().get().retrieve()
             .bodyToMono(JsonNode::class.java).block()
-
-        val contentLength = response?.size()
-        println(contentLength)
 
         return if (response is JsonNode) createMinimalKjorerute(response) else null
     }
