@@ -4,11 +4,10 @@ package com.example.ruteplanlegger.controller
 
 import com.example.ruteplanlegger.model.VegBilde
 import com.example.ruteplanlegger.service.VegbildeService
-import org.springframework.http.HttpStatus
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import reactor.core.publisher.Mono
-import java.lang.Exception
 
 
 @RestController
