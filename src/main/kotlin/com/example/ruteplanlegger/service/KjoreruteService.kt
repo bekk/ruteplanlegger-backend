@@ -46,7 +46,7 @@ class KjoreruteService(val webClient: WebClient.Builder) {
 
         val apiURL =
             "https://www.vegvesen.no/ws/no/vegvesen/ruteplan/routingservice_v3_0/open/routingService/api/Route/best?Stops=$startLong,$startLat;$sluttLong,$sluttLat&InputSRS=EPSG_4326&OutputSRS=EPSG_4326&ReturnFields=Geometry"
-        val response = webClient.baseUrl(apiURL).codecs { it.defaultCodecs().maxInMemorySize(1300 * 1024) }
+        val response = webClient.baseUrl(apiURL).codecs { it.defaultCodecs().maxInMemorySize(5000 * 1024) } // ca. 5 MB
             .defaultHeader(HttpHeaders.ACCEPT_ENCODING, "gzip, deflate").build().get().retrieve()
             .bodyToMono(JsonNode::class.java).block()
 
