@@ -17,15 +17,14 @@ import java.lang.Exception
 class VegbildeController(private val vegbildeService: VegbildeService) {
 
     @GetMapping("/{bbox}")
-    fun getVegbilde(@PathVariable bbox: String): Any {
+    fun getVegbilde(@PathVariable bbox: String): ResponseEntity<List<VegBilde>> {
         try {
             val vegbilde = vegbildeService.getVegbilde(bbox)
             return ResponseEntity.ok(vegbilde)
 
         }
         catch (ex: Exception) {
-            print(ex)
-            return ResponseEntity.notFound()
+            return ResponseEntity.badRequest().build()
         }
     }
 }
