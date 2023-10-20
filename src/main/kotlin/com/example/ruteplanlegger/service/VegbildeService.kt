@@ -45,13 +45,9 @@ class VegbildeService(val webClient: WebClient.Builder) {
         val listofVegBilder = mutableListOf<VegBilde>()
 
         try {
-            response.get("features").map { bilde ->
-
-                val url = bilde["properties"].get("URL")
-                val vegBilde = VegBilde(URL = url.textValue())
-                listofVegBilder.add(vegBilde)
-            }
-
+            val url = response.get("features")[0]["properties"].get("URL")
+            val vegBilde = VegBilde(URL = url.textValue())
+            listofVegBilder.add(vegBilde)
             if (listofVegBilder.isEmpty()) {
                 throw IllegalStateException("List is empty")
             }
