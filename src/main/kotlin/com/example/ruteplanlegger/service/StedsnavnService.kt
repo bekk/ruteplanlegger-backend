@@ -8,7 +8,7 @@ import org.springframework.web.reactive.function.client.WebClient
 
 var index = -1;
 
-fun createStedsnavnObject(data: JsonNode) = data["navn"].map { sted ->
+fun createStedsnavnObjectFromStedsnavnAPI(data: JsonNode) = data["navn"].map { sted ->
     val navn = sted["skrivemåte"].asText()
     val type = sted["navneobjekttype"].asText()
     val lat = sted["representasjonspunkt"]["nord"].asDouble()
@@ -18,7 +18,7 @@ fun createStedsnavnObject(data: JsonNode) = data["navn"].map { sted ->
 
 }
 
-fun createStedsnavnObjectFromAdresser(data: JsonNode) = data["adresser"].map { adresse ->
+fun createStedsnavnObjectFromAdresserAPI(data: JsonNode) = data["adresser"].map { adresse ->
     val navn = adresse["adressetekst"].asText()
     val type = adresse["objtype"].asText()
     val lat = adresse["representasjonspunkt"]["lat"].asDouble()
@@ -40,9 +40,9 @@ class StedsnavnService(val webClient: WebClient.Builder) {
         val adresseResponse =
             webClient.baseUrl(adresseApiURL).build().get().retrieve().bodyToMono(JsonNode::class.java).block()
 
-        val stedsnavnList = if (stedsnavnResponse is JsonNode) createStedsnavnObject(stedsnavnResponse) else emptyList()
+        val stedsnavnList = if (stedsnavnResponse is JsonNode) createStedsnavnObjectFromStedsnavnAPI(stedsnavnResponse) else emptyList()
         val adresseList =
-            if (adresseResponse is JsonNode) createStedsnavnObjectFromAdresser(adresseResponse) else emptyList()
+            if (adresseResponse is JsonNode) createStedsnavnObjectFromAdresserAPI(adresseResponse) else emptyList()
 
         return stedsnavnList + adresseList
     }
