@@ -6,15 +6,12 @@ import com.fasterxml.jackson.databind.JsonNode
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 
-var index = -1;
-
 fun createStedsnavnObjectFromStedsnavnAPI(data: JsonNode) = data["navn"].map { sted ->
     val navn = sted["skrivemåte"].asText()
     val type = sted["navneobjekttype"].asText()
     val lat = sted["representasjonspunkt"]["nord"].asDouble()
     val long = sted["representasjonspunkt"]["øst"].asDouble()
-    index++
-    Stedsnavn(navn = navn, typeObjekt = type, koordinat = LatLong(lat, long), id = index)
+    Stedsnavn(navn = navn, typeObjekt = type, koordinat = LatLong(lat, long))
 
 }
 
@@ -23,8 +20,7 @@ fun createStedsnavnObjectFromAdresserAPI(data: JsonNode) = data["adresser"].map 
     val type = adresse["objtype"].asText()
     val lat = adresse["representasjonspunkt"]["lat"].asDouble()
     val long = adresse["representasjonspunkt"]["lon"].asDouble()
-    index++
-    Stedsnavn(navn = navn, typeObjekt = type, koordinat = LatLong(lat, long), id = index)
+    Stedsnavn(navn = navn, typeObjekt = type, koordinat = LatLong(lat, long))
 }
 
 @Service
