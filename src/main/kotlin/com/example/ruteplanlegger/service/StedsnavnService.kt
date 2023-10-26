@@ -16,6 +16,7 @@ class ApiService(val webClient: WebClient.Builder) {
             webClient.baseUrl(stedsnavnApiURL).build().get().retrieve().bodyToMono(JsonNode::class.java).block()
         return stedsnavnResponse
     }
+
     fun getAdresseDataFromAPI(query: String): JsonNode? {
         val adresseApiURL =
             "https://ws.geonorge.no/adresser/v1/sok?sok=$query&fuzzy=true&treffPerSide=10&asciiKompatibel=true"
@@ -50,7 +51,8 @@ class StedsnavnService(val apiService: ApiService, val stedsnavnParser: Stedsnav
         val stedsnavnResponse = apiService.getStedsnavnDataFromAPI(query)
         val adresseResponse = apiService.getAdresseDataFromAPI(query)
 
-        val stedsnavnList = if (stedsnavnResponse is JsonNode) stedsnavnParser.parseStedsnavnFromStedsnavnAPI(stedsnavnResponse) else emptyList()
+        val stedsnavnList =
+            if (stedsnavnResponse is JsonNode) stedsnavnParser.parseStedsnavnFromStedsnavnAPI(stedsnavnResponse) else emptyList()
         val adresseList =
             if (adresseResponse is JsonNode) stedsnavnParser.parseStedsnavnFromAdresserAPI(adresseResponse) else emptyList()
 
