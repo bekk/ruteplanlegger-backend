@@ -1,10 +1,10 @@
 package com.example.ruteplanlegger.model
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import java.util.UUID
 
 data class Stedsnavn (
     val navn: String,
-    val id: Int = 0,
+    val id: UUID = UUID.randomUUID(),
     val typeObjekt: String,
     val koordinat: LatLong,
 )
