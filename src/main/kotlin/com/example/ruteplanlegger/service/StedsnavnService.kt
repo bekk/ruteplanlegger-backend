@@ -31,17 +31,23 @@ class StedsnavnParser {
     fun parseStedsnavnFromStedsnavnAPI(data: JsonNode) = data["navn"].map { sted ->
         val navn = sted["skrivemåte"].asText()
         val type = sted["navneobjekttype"].asText()
+        var fylke = sted["fylker"].get(0)["fylkesnavn"].asText()
+        fylke = fylke.split("-")[0].trim()
+        var kommune = sted["kommuner"].get(0)["kommunenavn"].asText()
+        kommune = kommune.split("-")[0].trim()
         val lat = sted["representasjonspunkt"]["nord"].asDouble()
         val long = sted["representasjonspunkt"]["øst"].asDouble()
-        Stedsnavn(navn = navn, typeObjekt = type, koordinat = LatLong(lat, long))
+        Stedsnavn(navn = navn, typeObjekt = type, fylke = fylke, kommune = kommune, koordinat = LatLong(lat, long))
     }
 
     fun parseStedsnavnFromAdresserAPI(data: JsonNode) = data["adresser"].map { adresse ->
         val navn = adresse["adressetekst"].asText()
         val type = adresse["objtype"].asText()
+        var kommune = adresse["kommunenavn"].asText()
+        kommune = kommune[0].uppercaseChar() + kommune.substring(1).lowercase();
         val lat = adresse["representasjonspunkt"]["lat"].asDouble()
         val long = adresse["representasjonspunkt"]["lon"].asDouble()
-        Stedsnavn(navn = navn, typeObjekt = type, koordinat = LatLong(lat, long))
+        Stedsnavn(navn = navn, typeObjekt = type, kommune = kommune, koordinat = LatLong(lat, long))
     }
 }
 
