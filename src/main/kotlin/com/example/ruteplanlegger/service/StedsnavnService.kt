@@ -31,8 +31,10 @@ class StedsnavnParser {
     fun parseStedsnavnFromStedsnavnAPI(data: JsonNode) = data["navn"].map { sted ->
         val navn = sted["skrivemåte"].asText()
         val type = sted["navneobjekttype"].asText()
-        val fylke = sted["fylker"].get(0)["fylkesnavn"].asText()
-        val kommune = sted["kommuner"].get(0)["kommunenavn"].asText()
+        var fylke = sted["fylker"].get(0)["fylkesnavn"].asText()
+        fylke = fylke.split("-")[0].trim()
+        var kommune = sted["kommuner"].get(0)["kommunenavn"].asText()
+        kommune = kommune.split("-")[0].trim()
         val lat = sted["representasjonspunkt"]["nord"].asDouble()
         val long = sted["representasjonspunkt"]["øst"].asDouble()
         Stedsnavn(navn = navn, typeObjekt = type, fylke = fylke, kommune = kommune, koordinat = LatLong(lat, long))
