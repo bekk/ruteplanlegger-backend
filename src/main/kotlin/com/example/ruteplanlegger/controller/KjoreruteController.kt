@@ -16,4 +16,11 @@ class KjoreruteController(val kjoreruteService: KjoreruteService) {
         return kjoreruteService.getKjoreruter(start, slutt)
     }
 
+
+    @GetMapping
+    @RequestMapping("/tourist")
+    fun getTouristKjoreruter(@RequestParam start: List<Double>, @RequestParam slutt: List<Double>):  Kjorerute? {
+        return kjoreruteService.getTouristKjoreruter(start, slutt)
+    }
+
 }
