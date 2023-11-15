@@ -14,13 +14,16 @@ import org.springframework.web.bind.annotation.*
 class KjoreruteController(val kjoreruteService: KjoreruteService) {
 
     @GetMapping
+    @RequestMapping("/best")
     @CrossOrigin(origins = ["*"])
-    fun getKjoreruter(@RequestParam start: List<Double>, @RequestParam slutt: List<Double>):  ResponseEntity<Kjorerute>? {
+    fun getKjoreruter(
+        @RequestParam start: List<Double>,
+        @RequestParam slutt: List<Double>
+    ): ResponseEntity<Kjorerute>? {
         try {
-            val res =  kjoreruteService.getKjoreruter(start, slutt)
+            val res = kjoreruteService.getBestKjoreruter(start, slutt)
             return ResponseEntity.ok(res)
-        }
-        catch (ex: Exception) {
+        } catch (ex: Exception) {
             return ResponseEntity.badRequest().build()
         }
     }
@@ -29,12 +32,14 @@ class KjoreruteController(val kjoreruteService: KjoreruteService) {
     @GetMapping
     @RequestMapping("/tourist")
     @CrossOrigin(origins = ["*"])
-    fun getTouristKjoreruter(@RequestParam start: List<Double>, @RequestParam slutt: List<Double>):  ResponseEntity<Kjorerute>? {
+    fun getTouristKjoreruter(
+        @RequestParam start: List<Double>,
+        @RequestParam slutt: List<Double>
+    ): ResponseEntity<Kjorerute>? {
         try {
             val res = kjoreruteService.getTouristKjoreruter(start, slutt)
             return ResponseEntity.ok(res)
-        }
-        catch (ex: Exception) {
+        } catch (ex: Exception) {
             return ResponseEntity.badRequest().build()
         }
 

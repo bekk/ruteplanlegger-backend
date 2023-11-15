@@ -38,7 +38,7 @@ fun createMinimalKjorerute(data: JsonNode): Kjorerute {
 class KjoreruteService(val webClient: WebClient.Builder) {
 
     private val logger = LoggerFactory.getLogger(KjoreruteService::class.java)
-    fun getKjoreruter(start: List<Double>, slutt: List<Double>): Kjorerute? {
+    fun getBestKjoreruter(start: List<Double>, slutt: List<Double>): Kjorerute? {
         // %2C er det samme som ,
         // %3B er det samme som ;
         // Test: http://localhost:8080/kjoreruter?start=59.91187,10.73353&slutt=63.43048,10.39506 // oslo - trondheim
@@ -47,13 +47,13 @@ class KjoreruteService(val webClient: WebClient.Builder) {
         val apiURL =
             "https://www.vegvesen.no/ws/no/vegvesen/ruteplan/routingservice_v3_0/open/routingService/api/Route/best?Stops=$startLong,$startLat;$sluttLong,$sluttLat&InputSRS=EPSG_4326&OutputSRS=EPSG_4326&ReturnFields=Geometry"
         try {
-            val response = webClient.baseUrl(apiURL).codecs { it.defaultCodecs().maxInMemorySize(5000 * 1024) } // ca. 5 MB
-                .defaultHeader(HttpHeaders.ACCEPT_ENCODING, "gzip, deflate").build().get().retrieve()
-                .bodyToMono(JsonNode::class.java).block()
+            val response =
+                webClient.baseUrl(apiURL).codecs { it.defaultCodecs().maxInMemorySize(5000 * 1024) } // ca. 5 MB
+                    .defaultHeader(HttpHeaders.ACCEPT_ENCODING, "gzip, deflate").build().get().retrieve()
+                    .bodyToMono(JsonNode::class.java).block()
 
             return if (response is JsonNode) createMinimalKjorerute(response) else null
-        }
-        catch (ex: Exception) {
+        } catch (ex: Exception) {
 
             logger.error(ex.toString())
             throw IOException("Couldn´t get kjorerute from API")
@@ -69,13 +69,13 @@ class KjoreruteService(val webClient: WebClient.Builder) {
             "https://www.vegvesen.no/ws/no/vegvesen/ruteplan/routingservice_v3_0/open/routingService/api/Route/tourist?Stops=$startLong,$startLat;$sluttLong,$sluttLat&InputSRS=EPSG_4326&OutputSRS=EPSG_4326&ReturnFields=Geometry"
 
         try {
-            val response = webClient.baseUrl(apiURL).codecs { it.defaultCodecs().maxInMemorySize(5000 * 1024) } // ca. 5 MB
-                .defaultHeader(HttpHeaders.ACCEPT_ENCODING, "gzip, deflate").build().get().retrieve()
-                .bodyToMono(JsonNode::class.java).block()
+            val response =
+                webClient.baseUrl(apiURL).codecs { it.defaultCodecs().maxInMemorySize(5000 * 1024) } // ca. 5 MB
+                    .defaultHeader(HttpHeaders.ACCEPT_ENCODING, "gzip, deflate").build().get().retrieve()
+                    .bodyToMono(JsonNode::class.java).block()
 
             return if (response is JsonNode) createMinimalKjorerute(response) else null
-        }
-        catch (ex: Exception) {
+        } catch (ex: Exception) {
 
             logger.error(ex.toString())
             throw IOException("Couldn´t get kjorerute from API")
