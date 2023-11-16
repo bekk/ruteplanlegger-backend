@@ -3,9 +3,11 @@ package com.example.ruteplanlegger.service
 import com.example.ruteplanlegger.model.GeoJSONFeatureCollection
 import com.example.ruteplanlegger.model.Kjorerute
 import com.fasterxml.jackson.databind.JsonNode
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
+import java.io.IOException
 
 
 fun createMinimalKjorerute(data: JsonNode): Kjorerute {
@@ -35,21 +37,54 @@ fun createMinimalKjorerute(data: JsonNode): Kjorerute {
 @Service
 class KjoreruteService(val webClient: WebClient.Builder) {
 
-    fun getKjoreruter(start: List<Double>, slutt: List<Double>): Kjorerute? {
+    private val logger = LoggerFactory.getLogger(KjoreruteService::class.java)
+    fun getBestKjoreruter(start: List<Double>, slutt: List<Double>): Kjorerute? {
         // %2C er det samme som ,
         // %3B er det samme som ;
         // Test: http://localhost:8080/kjoreruter?start=59.91187,10.73353&slutt=63.43048,10.39506 // oslo - trondheim
-        val startLat = start[0]
-        val startLong = start[1]
-        val sluttLat = slutt[0]
-        val sluttLong = slutt[1]
+        val (startLat, startLong, sluttLat, sluttLong) = getStartAndStopCoords(start, slutt)
 
         val apiURL =
             "https://www.vegvesen.no/ws/no/vegvesen/ruteplan/routingservice_v3_0/open/routingService/api/Route/best?Stops=$startLong,$startLat;$sluttLong,$sluttLat&InputSRS=EPSG_4326&OutputSRS=EPSG_4326&ReturnFields=Geometry"
-        val response = webClient.baseUrl(apiURL).codecs { it.defaultCodecs().maxInMemorySize(5000 * 1024) } // ca. 5 MB
-            .defaultHeader(HttpHeaders.ACCEPT_ENCODING, "gzip, deflate").build().get().retrieve()
-            .bodyToMono(JsonNode::class.java).block()
+        try {
+            val response =
+                webClient.baseUrl(apiURL).codecs { it.defaultCodecs().maxInMemorySize(5000 * 1024) } // ca. 5 MB
+                    .defaultHeader(HttpHeaders.ACCEPT_ENCODING, "gzip, deflate").build().get().retrieve()
+                    .bodyToMono(JsonNode::class.java).block()
 
-        return if (response is JsonNode) createMinimalKjorerute(response) else null
+            return if (response is JsonNode) createMinimalKjorerute(response) else null
+        } catch (ex: Exception) {
+
+            logger.error(ex.toString())
+            throw IOException("Couldn´t get kjorerute from API")
+        }
+    }
+
+    fun getTouristKjoreruter(start: List<Double>, slutt: List<Double>): Kjorerute? {
+
+
+        val (startLat, startLong, sluttLat, sluttLong) = getStartAndStopCoords(start, slutt)
+
+        val apiURL =
+            "https://www.vegvesen.no/ws/no/vegvesen/ruteplan/routingservice_v3_0/open/routingService/api/Route/tourist?Stops=$startLong,$startLat;$sluttLong,$sluttLat&InputSRS=EPSG_4326&OutputSRS=EPSG_4326&ReturnFields=Geometry"
+
+        try {
+            val response =
+                webClient.baseUrl(apiURL).codecs { it.defaultCodecs().maxInMemorySize(5000 * 1024) } // ca. 5 MB
+                    .defaultHeader(HttpHeaders.ACCEPT_ENCODING, "gzip, deflate").build().get().retrieve()
+                    .bodyToMono(JsonNode::class.java).block()
+
+            return if (response is JsonNode) createMinimalKjorerute(response) else null
+        } catch (ex: Exception) {
+
+            logger.error(ex.toString())
+            throw IOException("Couldn´t get kjorerute from API")
+        }
+
+
+    }
+
+    private fun getStartAndStopCoords(start: List<Double>, slutt: List<Double>): List<Double> {
+        return listOf(start[0], start[1], slutt[0], slutt[1])
     }
 }
