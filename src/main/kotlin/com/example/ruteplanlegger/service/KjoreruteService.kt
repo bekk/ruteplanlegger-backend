@@ -21,14 +21,15 @@ fun createMinimalKjorerute(data: JsonNode): Kjorerute {
 
         val features = kjorerute["features"]
         val geoJSON = GeoJSONFeatureCollection("FeatureCollection", features)
-
+        val ferrycount = kjorerute["statistic"].get("ferryCount").asInt()
         Kjorerute(
             id = id,
             routeName = routeName,
             totalDriveTime = totalDriveTime,
             totalTime = totalTime,
             totalLength = totalLength,
-            geojson = geoJSON
+            geojson = geoJSON,
+            ferryCount = ferrycount
         )
     }
     return listOfKjoreruter[0] // Return first object only to be sent to frontend
