@@ -7,5 +7,6 @@ data class Kjorerute(
     val totalTime: Double = 0.0, // total time of the route. will mostly be equal to totalDriveTime,
     // but if delays or certain waiting time restrictions are supported, this will be summarized in totalDriveTime
     val totalLength: Double = 0.0,
-    val geojson: GeoJSONFeatureCollection
+    val geojson: GeoJSONFeatureCollection,
+    val ferryCount: Int = 0,
 )
